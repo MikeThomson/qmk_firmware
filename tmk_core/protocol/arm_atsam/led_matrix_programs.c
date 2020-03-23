@@ -111,7 +111,8 @@ led_setup_t leds_salmon_knight_rider[] = {
     {.end = 1},
 };
 
-void *led_setups[] = {leds_rainbow_s, leds_rainbow_ns, leds_teal_salmon, leds_yellow, leds_red, leds_green, leds_blue, leds_white, leds_white_with_red_stripe, leds_black_with_red_stripe, leds_salmon_knight_rider, leds_off};
+//void *led_setups[] = {leds_rainbow_s, leds_rainbow_ns, leds_teal_salmon, leds_yellow, leds_red, leds_green, leds_blue, leds_white, leds_white_with_red_stripe, leds_black_with_red_stripe, leds_salmon_knight_rider, leds_off};
+void *led_setups[] = {leds_salmon_knight_rider, leds_off};
 
 const uint8_t led_setups_count = sizeof(led_setups) / sizeof(led_setups[0]);
 

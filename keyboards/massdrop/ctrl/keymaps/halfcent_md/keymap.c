@@ -18,11 +18,21 @@ enum ctrl_keycodes {
     DBG_MTRX,           //DEBUG Toggle Matrix Prints                                //
     DBG_KBD,            //DEBUG Toggle Keyboard Prints                              //
     DBG_MOU,            //DEBUG Toggle Mouse Prints                                 //
-    MD_BOOT             //Restart into bootloader after hold timeout                //Working
+    MD_BOOT,             //Restart into bootloader after hold timeout                //Working
+    HC_DSK_1,
+    HC_DSK_2,
+    HC_DSK_3,
+    HC_DSK_4,
 };
 
-keymap_config_t keymap_config;
 
+#define HC_DSK_LEFT LCTL(LGUI(KC_LEFT))
+#define HC_DSK_RIGHT LCTL(LGUI(KC_RIGHT))
+
+keymap_config_t keymap_config;
+// @TODO MIKE add heart animation
+// @TODO MIKE set default brightness etc,
+// @TODO MIKE add a left fn key for one handed stuff, where control is
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,             KC_PSCR, KC_SLCK, KC_PAUS, \
@@ -33,9 +43,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, MO(1),   KC_APP,  KC_RCTL,            KC_LEFT, KC_DOWN, KC_RGHT \
     ),
     [1] = LAYOUT(
-        _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,             KC_MUTE, _______, _______, \
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   KC_MPLY, KC_MSTP, KC_VOLU, \
-        L_T_BR,  L_PSD,   L_BRI,   L_PSI,   _______, _______, _______, _______, U_T_AGCR,_______, _______, _______, _______, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
+        _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,                                      KC_MUTE, _______, _______, \
+        _______, HC_DSK_1, HC_DSK_2, HC_DSK_3, HC_DSK_4, _______, _______, _______, _______, _______, _______, _______, _______, _______,                            KC_MPLY, KC_MSTP, KC_VOLU, \
+        _______, _______, KC_UP  , _______, _______, _______, _______, _______, _______, _______, _______, HC_DSK_LEFT, HC_DSK_RIGHT, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
+        _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        _______, _______, _______, _______, _______, MD_BOOT, _______, _______, _______, _______, _______, _______,                                                        _______, \
+        KC_CAPS, _______, _______,                   _______,                            _______, _______, MO(2)  , _______,                                      _______, _______, _______ \
+    ),
+    [2] = LAYOUT(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            _______, _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______, \
+        L_T_BR,  L_PSD,   L_BRI,   L_PSI,   _______, _______, _______, _______, U_T_AGCR,_______, _______, _______, _______, _______,   _______, _______, _______, \
         L_T_PTD, L_PTP,   L_BRD,   L_PTN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, L_T_MD,  L_T_ONF, _______, _______, MD_BOOT, NK_TOGG, _______, _______, _______, _______, _______,                              _______, \
         _______, _______, _______,                   _______,                            _______, _______, _______, _______,            _______, _______, _______ \
@@ -68,6 +86,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
     switch (keycode) {
+
+        case HC_DSK_1:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LGUI) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_UP(X_LCTL) SS_UP(X_LGUI));
+            }
+            return false;
+        case HC_DSK_2:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LGUI) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_RIGHT) SS_UP(X_LCTL) SS_UP(X_LGUI));
+            }
+            return false;
+        case HC_DSK_3:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LGUI) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT)  SS_UP(X_LCTL) SS_UP(X_LGUI));
+            }
+            return false;
+        case HC_DSK_4:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LGUI) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_TAP(X_RIGHT) SS_UP(X_LCTL) SS_UP(X_LGUI));
+            }
+            return false;
+
         case L_BRI:
             if (record->event.pressed) {
                 if (LED_GCR_STEP > LED_GCR_MAX - gcr_desired) gcr_desired = LED_GCR_MAX;
@@ -218,6 +258,9 @@ led_instruction_t led_instructions[] = {
     //Edge uses active pattern (id3 119 -  96: 0000 0000 1111 1111 1111 1111 1111 1111 = 0x00FFFFFF)
     // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_RGB, .id0 = 0xFFFFFFFF, .id1 = 0xFFFFFFFF, .id2 = 0x007FFFFF, .r = 255 },
     // { .flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_ROTATE_PATTERN , .id2 = 0xFF800000, .id3 = 0x00FFFFFF },
+
+    // @TODO MIKE these IDs aren't completely right for the edge only
+     { .flags = LED_FLAG_MATCH_ID | LED_FLAG_MATCH_LAYER | LED_FLAG_USE_RGB, .id2 = 0xFFFFFFF8, .id3 = 0x000003FF, .r = 255, .g = 114, .b = 118, .layer = 1 },
 
     //end must be set to 1 to indicate end of instruction set
      { .end = 1 }
