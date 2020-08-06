@@ -9,7 +9,7 @@ enum keycodes {
     HC_DESK4,
 
     HC_MORSE,
-
+    HC_TABCTL
 };
 
 #define HC_SPCFN1 LT(1, KC_SPC)
@@ -19,3 +19,5 @@ enum keycodes {
 
 #define HC_DSKL LCTL(LGUI(KC_LEFT))
 #define HC_DSKR LCTL(LGUI(KC_RIGHT))
+
+#define HC_TABCTL MT(MOD_LCTL,KC_TAB)
